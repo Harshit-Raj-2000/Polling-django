@@ -1,0 +1,31 @@
+{% extends "poll/layout.html" %}
+
+{% block title%}
+Login
+{% endblock %}
+
+{% block body %}
+{% if message %}
+<div class="alert alert-primary" role="alert">
+    {{message}}
+</div>
+{% endif %}
+<div class="row">
+<div class="container p-5 col-md-8 col-lg-6">
+    <form action="{% url 'login_view'%}" method="POST">
+        {% csrf_token %}
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" id="username">
+    </div>  
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" id="password" >
+    </div> 
+    <button type="submit" class="btn btn-primary mb-3">Login</button>
+    
+    <h6><a href="{% url 'signup_view' %}">Click here</a> to signup!</h6>
+</form> 
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "poll/layout.html" %}
+{% load static %}
+
+{% block title %}
+Create Poll
+{% endblock %}
+
+{% block body%}
+<div class="alert alert-warning" style="display:None;" id="topAlert"role="alert">
+</div>
+<div class="row">
+    <div class="container col-10 col-md-8 col-lg-6 formContainer mt-5 p-3">
+        <h2 id="pageHeading">Create a Poll</h2>
+        <form data-url = "{% url 'create' %}" id="creationForm">
+            {% csrf_token %}
+            <div class="mb-3" >
+                <label for="title" class="form-label">Title</label>
+                <input id="title" type="text" class="form-control form-control-sm"
+                    placeholder="Type your question here.." autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label ">Description(optional)</label>
+                <textarea id="description" class="form-control" rows="2" placeholder="Enter an introduction text.."
+                    autocomplete="off"></textarea>
+            </div>
+            <label for="optionsArea" class="pb-1">Answer Options</label>
+            <div id="optionsArea">
+                <div class="option">
+                    <input id="" type="text" class="form-control form-control-sm mb-3" placeholder="Choose an answer.."
+                        autocomplete="off">
+                </div>
+                <div class="option">
+                    <input id="" type="text" class="form-control form-control-sm mb-3" placeholder="Choose an answer.."
+                        autocomplete="off">
+
+                </div>
+                <div class="option">
+                    <input id="" type="text" class="form-control form-control-sm mb-3" placeholder="Choose an answer.."
+                        autocomplete="off">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </div>
+            </div>
+            <button type="submit" id="createFormButton" class="btn btn-primary mb-3" >Create Poll</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static "poll/css/create.css" %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static "poll/js/create.js" %}"></script>
+{% endblock %}

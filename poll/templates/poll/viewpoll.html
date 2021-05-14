@@ -1,0 +1,64 @@
+{% extends "poll/layout.html" %}
+{% load static %}
+
+{% block title %}
+View poll
+{% endblock %}
+
+{% block body %}
+
+<div id="copyindicator" style="display: none;">
+    Link Copied!
+</div>
+<div class="row">
+    <div class="container col-10 col-md-8 col-lg-6 formContainer mt-5 p-3">
+        <h2 id="pageHeading">{{ title }}</h2>
+        <div id="polldescription">
+            {{ description }}
+        </div>
+        <h5 id="choosetext">Choose one answer:</h5>
+        <form action="">
+            {% for i,opt in opts %}
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="option" id="option{{i}}">
+                <label class="form-check-label optionText" for="option{{i}}">
+                    {{opt}}
+                </label>
+            </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-sm-6 col-12">
+                    <button type="submit" id="votebutton" class="btn btn-primary mb-3">Vote</button>
+                </div>
+                <div class="col-sm-6 col-12">
+                    <button id="resultsbutton" class="btn btn-primary mb-3">Results</button>
+                    <a href="#shareurl"></a><button id="sharebutton" class="btn btn-primary mb-3">Share</button></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="container col-10 col-md-8 col-lg-6 shareContainer mt-5 p-3" id="share">
+        <h2 id="shareHeading">Share This Poll </h2>
+        <div class="row justify-content-sm-end justify-content-center mt-4">
+            <div class="col-sm-6 col-9">
+                <input type="text" readonly class="form-control" id="shareurl" value="{% url 'view' poll_id %}">
+            </div>
+            <div class="col-4">
+                <button id="copybutton" class="btn btn-primary mt-3 mt-sm-0">Copy Link</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'poll/css/viewpoll.css' %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'poll/js/viewpoll.js'%}"></script>
+{% endblock %}

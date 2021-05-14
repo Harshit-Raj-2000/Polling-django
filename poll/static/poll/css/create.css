@@ -1,0 +1,45 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: None;
+}
+
+body{
+    background-color: #f2f2f2;
+}
+
+.formContainer{
+    background-color: #ffffff;
+    border-radius: 10px;
+    border-top: 3px solid #ffbb33;
+}
+
+#pageHeading{
+    text-align: center;
+    font-size:x-large;
+}
+
+#createFormButton{
+    background-color: #45ba91;
+    border: 0px;
+    font-size: 13px;
+}
+
+#createFormButton:hover{
+    background-color: #3baf8a;
+}
+
+.option{
+    position: relative;
+}
+
+.fa-trash-o{
+    position: absolute;
+    right: 15px;
+    bottom: 8px;
+}
+.fa-trash-o:hover{
+    font-size: large;
+    cursor: pointer;
+}
