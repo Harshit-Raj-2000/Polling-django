@@ -1,0 +1,71 @@
+{% extends "poll/layout.html" %}
+{% load static %}
+
+{% block title %}
+Results
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="container col-10 col-md-8 col-lg-6 formContainer mt-5 p-3">
+        <h2 id="pageHeading">{{ title }}</h2>
+        <div id="polldescription">
+            {{ description }}
+        </div>
+        <div class="row-vote">
+            {% for option,answer,percentage,color in option_object %}
+            <div class="bar-wrapper">
+                <div class="bar-info d-flex justify-content-between">
+                    <h6>{{ option }}</h6>
+                    <h6>{{percentage}}% ({{answer}} votes)</h6>
+                </div>
+                <div class="vote-shell mb-4">
+                    <div class="result-bar" style="width:{{percentage}}%; background-color: blue;"></div>
+                </div>
+            </div>
+            <div class="bar-wrapper">
+                <div class="bar-info d-flex justify-content-between">
+                    <h6>12</h6>
+                    <h6>50.00% (1 votes)</h6>
+                </div>
+                <div class="vote-shell mb-4 ">
+                    <div class="result-bar" style="width:50%; background-color: green;"></div>
+                </div>
+            </div>
+            <div class="bar-wrapper">
+                <div class="bar-info d-flex justify-content-between">
+                    <h6>12</h6>
+                    <h6>50.00% (1 votes)</h6>
+                </div>
+                <div class="vote-shell mb-4">
+                    <div class="result-bar" style="width:0%; background-color: yellow;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vote-rep mb-3">
+            <div class="piechart d-flex flex-wrap justify-content-around align-items-end">
+                <canvas id="mycanvas"></canvas>
+                <div id="myLegend"></div>
+            </div>
+        </div>
+        <h5 class="totalCount">Total votes: {{ total }}</h5 class="mt-3">
+        <div class="row">
+            <div class="col-sm-6 col-12">
+                <button type="button" id="refreshbutton" class="btn btn-primary mb-3">Refresh Results</button>
+            </div>
+            <div class="col-sm-6 col-12">
+                <a href=""><button id="backbutton" type="button"
+                        class="btn btn-primary mb-3">Back to poll</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'poll/css/results.css' %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'poll/js/results.js' %}"></script>
+{% endblock %}

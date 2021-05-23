@@ -56,6 +56,19 @@ def create(request):
     return render(request, "poll/create.html")
 
 def view_poll(request, poll_id):
+    if request.method == "POST":
+        try:
+            form_data = json.loads(request.body)
+            index = form_data['chosenIndex']
+            p = Poll.objects.get(id=poll_id)
+            answers = json.loads(p.answers)
+            answers[index] += 1
+            p.answers = json.dumps(answers)
+            p.save()
+            return HttpResponse(status = 200)
+        except:
+            return HttpResponse(status=500)
+
     poll = Poll.objects.get(id=poll_id)
     context = {
         "title": poll.title,
@@ -64,4 +77,32 @@ def view_poll(request, poll_id):
         "poll_id": poll_id
     }
     return render(request, "poll/viewpoll.html", context)
+
+def results_view(request, poll_id):
+    percentages= []
+    colors = ['blue', 'orange', 'green', 'pink', 'brown', 'purple', 'yellow', 'grey', 'red', 'black']
+    optionanswers = dict()
+    poll = Poll.objects.get(id=poll_id)
+    answers = json.loads(poll.answers)
+    options = json.loads(poll.options)
+    total = sum(answers)
+    
+    if total != 0:
+        for each in answers:
+            percentages.append(float("{:.2f}".format((each/total)*100)))
+    else:
+        percentages = [0]*len(answers)
+    for i,j in zip(options,answers):
+        optionanswers[i] = j
+    
+    context = {
+        "title": poll.title,
+        "description": poll.description,
+        "total": total,
+        "option_object": list(zip(options, answers, percentages, colors)),
+        "optionanswers": json.dumps(optionanswers),
+        "poll_id": poll_id
+    }
+    return render(request, "poll/results.html", context)
+
 

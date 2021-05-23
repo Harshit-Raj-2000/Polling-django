@@ -95,7 +95,7 @@ function validateForm(title, options){
         return false
         }
         else{
-            optionsArray.push(item.value)
+            optionsArray.push(item.value.trim())
         }
     }
     return true
