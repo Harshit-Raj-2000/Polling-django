@@ -58,14 +58,18 @@ def create(request):
 def view_poll(request, poll_id):
     if request.method == "POST":
         try:
-            form_data = json.loads(request.body)
-            index = form_data['chosenIndex']
-            p = Poll.objects.get(id=poll_id)
-            answers = json.loads(p.answers)
-            answers[index] += 1
-            p.answers = json.dumps(answers)
-            p.save()
-            return HttpResponse(status = 200)
+            if "voted" not in request.session:
+                form_data = json.loads(request.body)
+                index = form_data['chosenIndex']
+                p = Poll.objects.get(id=poll_id)
+                answers = json.loads(p.answers)
+                answers[index] += 1
+                p.answers = json.dumps(answers)
+                p.save()
+                request.session["voted"] = "true"
+                return HttpResponse("vote added", status = 200)
+            else:
+                return HttpResponse("already voted", status = 200)
         except:
             return HttpResponse(status=500)
 

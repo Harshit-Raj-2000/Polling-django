@@ -1,39 +1,41 @@
 validationAlert = document.querySelector('#topAlert')
 
 
-document.querySelector('#copybutton').onclick = ()=>{
+document.querySelector('#copybutton').onclick = () => {
     urlinput = document.querySelector('#shareurl')
     urlinput.select()
     document.execCommand("copy")
-    document.querySelector('#copyindicator').style.display="block"
-    setTimeout(()=>{
-    document.querySelector('#copyindicator').style.display="None"
-    },1000)
+    document.querySelector('#copyindicator').style.display = "block"
+    setTimeout(() => {
+        document.querySelector('#copyindicator').style.display = "None"
+    }, 1000)
 }
 
-document.querySelector('#voteForm').addEventListener('submit',voted)
+document.querySelector('#voteForm').addEventListener('submit', voted)
 
-function voted(e){
+function voted(e) {
     e.preventDefault()
     var chosenIndex = -1
     var checkArray = document.querySelectorAll('input[name="option"]')
-    for(i = 0; i < checkArray.length; i++){
+    for (i = 0; i < checkArray.length; i++) {
         item = checkArray[i]
-        if(item.checked){
+        if (item.checked) {
             chosenIndex = i
             break;
         }
     }
-    if(chosenIndex == -1){
+    if (chosenIndex == -1) {
         validationAlert.innerHTML = "Please chose an option before voting!"
         validationAlert.style.display = "block"
-        setTimeout(()=>{
+        setTimeout(() => {
             validationAlert.style.display = "None"
-        },5000)
+        }, 5000)
         return
     }
 
-    var data = JSON.stringify({chosenIndex})
+    var data = JSON.stringify({
+        chosenIndex
+    })
 
     var url = document.querySelector('#shareurl').value
     var csrf_token = e.target.dataset.csrf
@@ -43,21 +45,28 @@ function voted(e){
     xhr.setRequestHeader('content-type', 'application/json')
     xhr.setRequestHeader('X-CSRFToken', csrf_token)
 
-    xhr.onload = function(){
-        if(this.status == 200){
-            validationAlert.innerHTML = "Your vote was successfully added!"
-            validationAlert.style.display = "block"
-            setTimeout(()=>{
-                validationAlert.style.display = "None"
-            },3000)
-        }
-        else{
+    xhr.onload = function () {
+        if (this.status == 200) {
+            if (this.responseText == "vote added") {
+                validationAlert.innerHTML = "Your vote was successfully added!"
+                validationAlert.style.display = "block"
+                setTimeout(() => {
+                    validationAlert.style.display = "None"
+                }, 3000)
+            } else {
+                validationAlert.innerHTML = "You have already voted!"
+                validationAlert.style.display = "block"
+                setTimeout(() => {
+                    validationAlert.style.display = "None"
+                }, 3000)
+            }
+        } else {
             validationAlert.innerHTML = "Something went wrong. Please try again!"
             validationAlert.style.display = "block"
-            setTimeout(()=>{
+            setTimeout(() => {
                 validationAlert.style.display = "None"
-            },3000)
-            }
+            }, 3000)
+        }
     }
 
     xhr.send(data)
